@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>北艺美术学院教职工形象画册 2015-2024</title>
+<style>
+:root {
+  --bg:#f7f8fb; --card:#ffffff; --ink:#162033; --muted:#657085;
+  --blue:#0876a7; --cyan:#16b8b2; --pink:#ff3c74; --orange:#ffb01f;
+  --shadow:0 18px 50px rgba(16,31,59,.10); --radius:24px;
+}
+*{box-sizing:border-box} body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);background:
+radial-gradient(circle at 16% 10%,rgba(22,184,178,.22),transparent 28%),
+radial-gradient(circle at 88% 3%,rgba(255,60,116,.18),transparent 30%),
+linear-gradient(180deg,#eef9fb 0%,var(--bg) 36%);}
+.hero{min-height:430px;display:grid;grid-template-columns:1.05fr .95fr;gap:36px;align-items:center;padding:58px min(7vw,96px) 38px;}
+.kicker{display:inline-flex;gap:10px;align-items:center;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.72);backdrop-filter:blur(10px);color:var(--blue);font-weight:700;}
+h1{font-size:clamp(36px,6vw,74px);line-height:1.02;margin:24px 0 14px;letter-spacing:-.05em}
+.hero p{font-size:18px;line-height:1.8;color:var(--muted);max-width:650px}
+.cover{position:relative;border-radius:34px;overflow:hidden;background:#0c89a3;box-shadow:var(--shadow);transform:rotate(1.5deg)}
+.cover img{display:block;width:100%;aspect-ratio:1/1;object-fit:cover}
+.cover:after{content:"";position:absolute;inset:0;background:linear-gradient(135deg,transparent 45%,rgba(255,255,255,.32));mix-blend-mode:overlay}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:0 min(7vw,96px) 34px}
+.metric{background:rgba(255,255,255,.78);border:1px solid rgba(255,255,255,.72);border-radius:22px;padding:20px;box-shadow:0 10px 24px rgba(16,31,59,.06)}
+.metric b{font-size:34px;display:block} .metric span{color:var(--muted);font-size:14px}
+.toolbar{position:sticky;top:0;z-index:5;padding:14px min(7vw,96px);background:rgba(247,248,251,.78);backdrop-filter:blur(16px);border-block:1px solid rgba(134,147,171,.18);display:grid;grid-template-columns:1fr auto auto auto auto;gap:12px}
+input,select{border:1px solid #dbe2ec;background:white;border-radius:16px;padding:13px 14px;font-size:15px;outline:none}
+.section{padding:42px min(7vw,96px)}
+.section h2{font-size:30px;margin:0 0 18px}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.panel{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
+.bar{display:grid;grid-template-columns:110px 1fr 44px;gap:12px;align-items:center;margin:12px 0;color:#344054;cursor:pointer;border-radius:14px;padding:4px 6px;transition:.18s ease}
+.bar:hover{background:#f6f9fc;transform:translateX(2px)}
+.track{height:14px;background:#edf1f6;border-radius:999px;overflow:hidden} .fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--blue),var(--pink));border-radius:999px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:22px}
+.card{background:var(--card);border-radius:26px;overflow:hidden;box-shadow:0 12px 30px rgba(16,31,59,.08);transition:.25s ease;position:relative}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(16,31,59,.14)}
+.photo{width:100%;aspect-ratio:1/1.15;object-fit:cover;object-position:top;background:#fff}
+.info{padding:16px 18px 18px} .name{font-size:22px;font-weight:800;margin-bottom:8px}
+.tag{display:inline-block;margin:4px 4px 4px 0;padding:6px 10px;border-radius:999px;background:#eef9fb;color:var(--blue);font-size:12px;font-weight:700}
+.meta{font-size:13px;color:var(--muted);line-height:1.7;margin-top:8px}
+.empty{display:none;text-align:center;color:var(--muted);padding:44px}
+@media (max-width:900px){.hero,.charts{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.toolbar{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div>
+    <div class="kicker">BEIHAI UNIVERSITY OF ART AND DESIGN · 美术学院</div>
+    <h1>教职工形象画册<br>2015—2024</h1>
+    <p>将 PDF 画册转化为可搜索、可筛选、可统计的数字化人物墙：按教研室、入职年份、学历与毕业院校快速浏览。</p>
+  </div>
+  <div class="cover"><img src="images/cover.jpg" alt="画册封面"></div>
+</header>
+<section class="metrics">
+  <div class="metric"><b id="mTotal">0</b><span>收录教职工</span></div>
+  <div class="metric"><b id="mDept">0</b><span>部门 / 教研室</span></div>
+  <div class="metric"><b id="mFirst">—</b><span>最早入职</span></div>
+  <div class="metric"><b id="mLatest">—</b><span>最新入职</span></div>
+</section>
+<nav class="toolbar">
+  <input id="q" placeholder="搜索姓名、部门、毕业院校、学历、地域…" />
+  <select id="dept"><option value="">全部部门</option></select>
+  <select id="year"><option value="">全部入职年份</option></select>
+  <select id="region"><option value="">全部地域</option></select>
+  <select id="edu"><option value="">全部学历</option></select>
+</nav>
+<section class="section">
+  <h2>数据概览</h2>
+  <div class="charts">
+    <div class="panel"><h3>部门分布</h3><div id="deptChart"></div></div>
+    <div class="panel"><h3>入职年份分布</h3><div id="yearChart"></div></div>
+    <div class="panel"><h3>地域分布（按毕业院校所在地）</h3><div id="regionChart"></div></div>
+    <div class="panel"><h3>学历分类</h3><div id="eduChart"></div></div>
+  </div>
+</section>
+<section class="section">
+  <h2>人物画廊</h2>
+  <div id="grid" class="grid"></div>
+  <div id="empty" class="empty">没有找到匹配结果</div>
+</section>
+<script>
+const people = [{"page": 3, "name": "陈建江", "birth": "1988-03", "join": "2015-08", "dept": "美术学教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 4, "name": "韩玮", "birth": "1990-05", "join": "2015-08", "dept": "绘画教研室", "school": "广西师范大学", "edu": "硕士研究生"}, {"page": 5, "name": "李康楠", "birth": "1988-12", "join": "2015-08", "dept": "美术学教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 6, "name": "苏乃从", "birth": "1988-01", "join": "2015-08", "dept": "书法教研室", "school": "首都师范大学", "edu": "硕士研究生"}, {"page": 7, "name": "金凯靖", "birth": "1987-08", "join": "2016-08", "dept": "雕塑教研室", "school": "美国旧金山大学", "edu": "硕士研究生"}, {"page": 8, "name": "刘勇生", "birth": "1989-08", "join": "2016-08", "dept": "美术学教研室", "school": "陕西师范大学", "edu": "硕士研究生"}, {"page": 9, "name": "刘雨若", "birth": "1999-01", "join": "2022-07", "dept": "雕塑教研室", "school": "俄罗斯阿穆尔国立大学", "edu": "硕士研究生"}, {"page": 10, "name": "肖玺", "birth": "1990-06", "join": "2017-08", "dept": "绘画教研室", "school": "中国艺术研究院", "edu": "硕士研究生"}, {"page": 11, "name": "孙海洋", "birth": "1988-08", "join": "2017-09", "dept": "绘画教研室", "school": "白俄罗斯维捷布斯克国立大学", "edu": "硕士研究生（在读）"}, {"page": 12, "name": "张湘中", "birth": "1987-12", "join": "2017-08", "dept": "绘画教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 13, "name": "赵晓楠", "birth": "1999-01", "join": "2021-08", "dept": "行政办", "school": "北海艺术设计学院", "edu": "大学本科"}, {"page": 14, "name": "张泰莹", "birth": "1985-04", "join": "2017-08", "dept": "雕塑教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 15, "name": "黄寿宁", "birth": "1983-01", "join": "2019-08", "dept": "雕塑教研室", "school": "广西艺术学院", "edu": "硕士研究生（在读）"}, {"page": 16, "name": "孔令石", "birth": "1986-09", "join": "2018-02", "dept": "摄影教研室", "school": "广州美术学院", "edu": "大学本科"}, {"page": 17, "name": "焦伟娜", "birth": "1987-05", "join": "2018-02", "dept": "绘画教研室", "school": "内蒙古师范大学", "edu": "硕士研究生"}, {"page": 18, "name": "袁志伟", "birth": "1991-03", "join": "2018-04", "dept": "绘画教研室", "school": "内蒙古师范大学", "edu": "硕士研究生"}, {"page": 19, "name": "程宣睿", "birth": "1992-06", "join": "2018-08", "dept": "绘画教研室", "school": "吉林艺术学院", "edu": "硕士研究生"}, {"page": 20, "name": "覃媛媛", "birth": "1998-10", "join": "2018-08", "dept": "雕塑教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 21, "name": "杨凯", "birth": "1992-06", "join": "2019-07", "dept": "雕塑教研室", "school": "白俄罗斯维捷布斯克国立大学", "edu": "硕士研究生（在读）"}, {"page": 22, "name": "许珍珍", "birth": "1989-10", "join": "2018-08", "dept": "雕塑教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 23, "name": "周毅", "birth": "1985-12", "join": "2018-08", "dept": "绘画教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 24, "name": "王苏华", "birth": "1991-02", "join": "2018-08", "dept": "美术学教研室", "school": "山西大学", "edu": "硕士研究生"}, {"page": 25, "name": "李炫勋", "birth": "1979-08", "join": "2018-09", "dept": "摄影教研室", "school": "中央美术学院", "edu": "硕士研究生"}, {"page": 26, "name": "韦剑仕", "birth": "1988-10", "join": "2018-08", "dept": "绘画教研室", "school": "西安美术学院", "edu": "硕士研究生"}, {"page": 27, "name": "熊晓翠", "birth": "1991-01", "join": "2018-08", "dept": "绘画教研室", "school": "西安美术学院", "edu": "硕士研究生"}, {"page": 28, "name": "段凝", "birth": "1991-10", "join": "2018-08", "dept": "绘画教研室", "school": "卡拉拉美术学院", "edu": "硕士研究生"}, {"page": 29, "name": "林昌华", "birth": "1991-08", "join": "2020-08", "dept": "绘画教研室", "school": "西南大学", "edu": "硕士研究生"}, {"page": 30, "name": "刘飞婷", "birth": "1989-03", "join": "2018-11", "dept": "行政办", "school": "山东圣翰财贸职业学院", "edu": "大专"}, {"page": 31, "name": "韩洋", "birth": "1993-04", "join": "2019-07", "dept": "美术学教研室", "school": "西安美术学院", "edu": "硕士研究生"}, {"page": 32, "name": "鲁明阳", "birth": "1992-02", "join": "2019-07", "dept": "摄影教研室", "school": "鲁迅美术学院", "edu": "硕士研究生"}, {"page": 33, "name": "陈越", "birth": "1990-03", "join": "2019-07", "dept": "摄影教研室", "school": "沈阳建筑大学", "edu": "硕士研究生"}, {"page": 34, "name": "陈凤康", "birth": "1996-07", "join": "2019-07", "dept": "绘画教研室", "school": "西北大学", "edu": "硕士研究生"}, {"page": 35, "name": "冯鑫", "birth": "1985-11", "join": "2019-08", "dept": "雕塑教研室", "school": "内蒙古师范大学", "edu": "硕士研究生"}, {"page": 36, "name": "郭刚", "birth": "1987-10", "join": "2019-08", "dept": "摄影教研室", "school": "河南大学", "edu": "硕士研究生"}, {"page": 37, "name": "刘培培", "birth": "1987-03", "join": "2019-07", "dept": "绘画教研室", "school": "南通大学", "edu": "硕士研究生"}, {"page": 38, "name": "孙秀珍", "birth": "1979-09", "join": "2019-09", "dept": "行政办", "school": "内蒙古司法学校", "edu": "中专"}, {"page": 39, "name": "王云龙", "birth": "1992-01", "join": "2020-08", "dept": "绘画教研室", "school": "浙江师范大学", "edu": "硕士研究生"}, {"page": 40, "name": "唐月", "birth": "1993-01", "join": "2020-08", "dept": "摄影教研室", "school": "鲁迅美术学院", "edu": "硕士研究生"}, {"page": 41, "name": "林德赞", "birth": "1990-04", "join": "2024-02", "dept": "摄影教研室", "school": "鲁迅美术学院", "edu": "大学本科"}, {"page": 42, "name": "矫石", "birth": "1987-12", "join": "2020-08", "dept": "雕塑教研室", "school": "东北师范大学", "edu": "硕士研究生"}, {"page": 43, "name": "麦振龙", "birth": "1997-06", "join": "2020-08", "dept": "行政办", "school": "涅任国立大学", "edu": "硕士研究生"}, {"page": 44, "name": "宁梦宇", "birth": "1990-06", "join": "2021-02", "dept": "书法教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 45, "name": "黄凤兰", "birth": "1993-03", "join": "2021-03", "dept": "绘画教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 46, "name": "刘航", "birth": "1990-05", "join": "2021-04", "dept": "绘画教研室", "school": "中国艺术研究院", "edu": "硕士研究生"}, {"page": 47, "name": "雷玮婷", "birth": "1993-11", "join": "2021-06", "dept": "行政办", "school": "玉林师范学院", "edu": "大学本科"}, {"page": 48, "name": "王金凤", "birth": "1995-12", "join": "2021-08", "dept": "行政办", "school": "维捷布斯克国立马舍罗夫大学", "edu": "硕士研究生（在读）"}, {"page": 49, "name": "许荣军", "birth": "1998-10", "join": "2021-08", "dept": "行政办", "school": "北海艺术设计学院", "edu": "大学本科"}, {"page": 50, "name": "景思晔", "birth": "1993-09", "join": "2021-08", "dept": "绘画教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 51, "name": "乔慧康", "birth": "1994-07", "join": "2021-08", "dept": "摄影教研室", "school": "广西师范大学", "edu": "硕士研究生"}, {"page": 52, "name": "吉姣", "birth": "1994-01", "join": "2021-08", "dept": "书法教研室", "school": "贵州师范大学", "edu": "硕士研究生"}, {"page": 53, "name": "陈丹", "birth": "1994-12", "join": "2021-08", "dept": "绘画教研室", "school": "湖南师范大学", "edu": "硕士研究生"}, {"page": 54, "name": "李荣", "birth": "1989-03", "join": "2021-08", "dept": "绘画教研室", "school": "湖南师范大学", "edu": "硕士研究生"}, {"page": 55, "name": "张洁妮", "birth": "1999-04", "join": "2021-09", "dept": "行政办", "school": "南宁师范大学", "edu": "大学本科"}, {"page": 56, "name": "孟丹", "birth": "1991-06", "join": "2021-08", "dept": "书法教研室", "school": "西安美术学院", "edu": "硕士研究生"}, {"page": 57, "name": "李东垚", "birth": "1994-11", "join": "2022-05", "dept": "书法教研室", "school": "沈阳师范大学", "edu": "硕士研究生"}, {"page": 58, "name": "亢艳宏", "birth": "1993-01", "join": "2021-10", "dept": "书法教研室", "school": "北京城市学院", "edu": "硕士研究生"}, {"page": 59, "name": "李异", "birth": "1992-06", "join": "2022-03", "dept": "摄影教研室", "school": "西南大学", "edu": "硕士研究生"}, {"page": 60, "name": "郝怡然", "birth": "1992-05", "join": "2022-05", "dept": "美术学教研室", "school": "西北民族大学", "edu": "硕士研究生"}, {"page": 61, "name": "郭晓山", "birth": "1990-03", "join": "2022-06", "dept": "美术学教研室", "school": "西北民族大学", "edu": "硕士研究生"}, {"page": 62, "name": "温雅捷", "birth": "1995-01", "join": "2022-07", "dept": "美术学教研室", "school": "广西师范大学", "edu": "硕士研究生"}, {"page": 63, "name": "于淑均", "birth": "1997-06", "join": "2022-07", "dept": "美术学教研室", "school": "沈阳大学", "edu": "硕士研究生"}, {"page": 64, "name": "张博", "birth": "1997-04", "join": "2022-07", "dept": "美术学教研室", "school": "吉林大学", "edu": "硕士研究生"}, {"page": 65, "name": "张菁曼", "birth": "1993-07", "join": "2022-07", "dept": "书法教研室", "school": "南京师范大学", "edu": "硕士研究生"}, {"page": 66, "name": "陈亚宗", "birth": "1994-04", "join": "2022-07", "dept": "绘画教研室", "school": "湖南科技大学", "edu": "硕士研究生"}, {"page": 67, "name": "常锦文", "birth": "1996-07", "join": "2022-07", "dept": "书法教研室", "school": "中南大学", "edu": "硕士研究生"}, {"page": 68, "name": "尹惠文", "birth": "1994-03", "join": "2022-07", "dept": "摄影教研室", "school": "四川美术学院", "edu": "硕士研究生"}, {"page": 69, "name": "殷声", "birth": "1989-05", "join": "2022-08", "dept": "摄影教研室", "school": "美国辛辛那提大学", "edu": "硕士研究生"}, {"page": 70, "name": "李家琪", "birth": "1995-07", "join": "2022-07", "dept": "书法教研室", "school": "湖北美术学院", "edu": "硕士研究生"}, {"page": 71, "name": "周小龙", "birth": "1994-08", "join": "2022-07", "dept": "美术学教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 72, "name": "喻广林", "birth": "1993-05", "join": "2022-07", "dept": "书法教研室", "school": "广西师范大学", "edu": "硕士研究生"}, {"page": 73, "name": "张天赋", "birth": "1991-06", "join": "2022-07", "dept": "书法教研室", "school": "贵州师范大学", "edu": "硕士研究生"}, {"page": 74, "name": "刘路欣", "birth": "1996-12", "join": "2022-07", "dept": "美术学教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 75, "name": "焦为好", "birth": "1996-04", "join": "2022-07", "dept": "绘画教研室", "school": "河南大学", "edu": "硕士研究生"}, {"page": 76, "name": "熊东", "birth": "1997-11", "join": "2022-07", "dept": "书法教研室", "school": "山东艺术学院", "edu": "硕士研究生"}, {"page": 77, "name": "李鑫", "birth": "1996-12", "join": "2022-07", "dept": "书法教研室", "school": "山东艺术学院", "edu": "硕士研究生"}, {"page": 78, "name": "梁文峰", "birth": "1996-11", "join": "2022-07", "dept": "美术学教研室", "school": "湖南师范大学", "edu": "硕士研究生"}, {"page": 79, "name": "罗茜羽", "birth": "1997-06", "join": "2023-03", "dept": "绘画教研室", "school": "湖南师范大学", "edu": "硕士研究生"}, {"page": 80, "name": "左云飞", "birth": "1992-06", "join": "2022-07", "dept": "书法教研室", "school": "哈尔滨师范大学", "edu": "硕士研究生"}, {"page": 81, "name": "阁成萍", "birth": "1992-05", "join": "2022-07", "dept": "绘画教研室", "school": "哈尔滨师范大学", "edu": "硕士研究生"}, {"page": 82, "name": "高嘉雯", "birth": "1992-03", "join": "2022-07", "dept": "摄影教研室", "school": "诺丁汉特伦特大学", "edu": "硕士研究生"}, {"page": 83, "name": "王敛", "birth": "1991-12", "join": "2022-07", "dept": "美术学教研室", "school": "西南大学", "edu": "硕士研究生"}, {"page": 84, "name": "李晓静", "birth": "1990-10", "join": "2022-07", "dept": "美术学教研室", "school": "中国艺术研究院", "edu": "硕士研究生"}, {"page": 85, "name": "李伟民", "birth": "1992-11", "join": "2022-07", "dept": "摄影教研室", "school": "北京印刷学院", "edu": "硕士研究生"}, {"page": 86, "name": "庄嘉伊", "birth": "1999-09", "join": "2022-08", "dept": "行政办", "school": "莫吉廖夫国立A.A 库列硕夫大学", "edu": "硕士研究生（在读）"}, {"page": 87, "name": "陈华", "birth": "1980-10", "join": "2022-09", "dept": "绘画教研室", "school": "上海师范大学", "edu": "硕士研究生"}, {"page": 88, "name": "于文成", "birth": "1996-04", "join": "2022-09", "dept": "雕塑教研室", "school": "天津美术学院", "edu": "硕士研究生"}, {"page": 89, "name": "黄之鸢飞", "birth": "1989-11", "join": "2022-09", "dept": "绘画教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 90, "name": "欧安佳", "birth": "1985-12", "join": "2022-09", "dept": "雕塑教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 91, "name": "王帅", "birth": "1988-01", "join": "2022-09", "dept": "美术学教研室", "school": "哈尔滨师范大学", "edu": "硕士研究生"}, {"page": 92, "name": "关懿恒", "birth": "1995-05", "join": "2022-09", "dept": "绘画教研室", "school": "内蒙古师范大学", "edu": "硕士研究生"}, {"page": 93, "name": "谢瑞", "birth": "1994-09", "join": "2022-09", "dept": "绘画教研室", "school": "中央美术学院", "edu": "硕士研究生"}, {"page": 94, "name": "胡童童", "birth": "1994-02", "join": "2022-11", "dept": "绘画教研室", "school": "中央美术学院", "edu": "硕士研究生"}, {"page": 95, "name": "黄学纬", "birth": "1990-12", "join": "2023-02", "dept": "绘画教研室", "school": "天津美术学院", "edu": "硕士研究生"}, {"page": 96, "name": "覃嬿羽", "birth": "1995-08", "join": "2023-04", "dept": "美术学教研室", "school": "澳大利亚新南威尔士大学", "edu": "硕士研究生"}, {"page": 97, "name": "宋邦虎", "birth": "1995-12", "join": "2023-04", "dept": "绘画教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 98, "name": "吴希文", "birth": "1997-04", "join": "2023-08", "dept": "绘画教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 99, "name": "金昊宏", "birth": "1997-02", "join": "2023-08", "dept": "绘画教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 100, "name": "张思佳", "birth": "1998-08", "join": "2023-08", "dept": "绘画教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 101, "name": "陈淼", "birth": "1997-03", "join": "2023-08", "dept": "绘画教研室", "school": "湖北美术学院", "edu": "硕士研究生"}, {"page": 102, "name": "马冲", "birth": "1999-02", "join": "2023-08", "dept": "美术学教研室", "school": "广西艺术学院", "edu": "硕士研究生"}, {"page": 103, "name": "范乃心", "birth": "1997-05", "join": "2023-08", "dept": "雕塑教研室", "school": "广西大学", "edu": "硕士研究生"}, {"page": 104, "name": "胡慧捷", "birth": "1998-03", "join": "2023-08", "dept": "书法教研室", "school": "广西师范大学", "edu": "硕士研究生"}, {"page": 105, "name": "雒冲", "birth": "1989-09", "join": "2023-10", "dept": "美术学教研室", "school": "西安美术学院", "edu": "硕士研究生"}, {"page": 106, "name": "林盼鑫", "birth": "1997-08", "join": "2023-11", "dept": "雕塑教研室", "school": "广西艺术学院", "edu": "硕士研究生"}];
+const stats = {"total": 104, "earliest_join": "2015-08", "latest_join": "2024-02", "avg_birth": 1992.0, "dept_counts": {"美术学教研室": 19, "绘画教研室": 35, "书法教研室": 15, "雕塑教研室": 13, "行政办": 9, "摄影教研室": 13}, "join_counts": {"2015": 4, "2016": 2, "2017": 4, "2018": 13, "2019": 10, "2020": 5, "2021": 15, "2022": 37, "2023": 13, "2024": 1}, "edu_counts": {"硕士研究生": 96, "大学本科": 6, "大专": 1, "中专": 1}};
+
+
+function getRegion(school){
+  if(!school) return '未标注';
+  const s = school.trim();
+  const overseas = ['美国','俄罗斯','白俄罗斯','澳大利亚','诺丁汉','涅任','莫吉廖夫','卡拉拉'];
+  if(overseas.some(k => s.includes(k))) return '海外院校';
+  const map = [
+    ['广西','广西'],['北海','广西'],['南宁','广西'],['玉林','广西'],
+    ['北京','北京'],['中国艺术研究院','北京'],['中央美术学院','北京'],['首都师范','北京'],['北京印刷','北京'],['北京城市','北京'],
+    ['上海','上海'],['天津','天津'],['重庆','重庆'],
+    ['陕西','陕西'],['西安','陕西'],['山西','山西'],['内蒙古','内蒙古'],
+    ['吉林','吉林'],['东北师范','吉林'],['黑龙江','黑龙江'],['哈尔滨','黑龙江'],['辽宁','辽宁'],['沈阳','辽宁'],['鲁迅美术','辽宁'],
+    ['河南','河南'],['山东','山东'],['南通','江苏'],['南京','江苏'],['浙江','浙江'],
+    ['湖南','湖南'],['中南大学','湖南'],['湖北','湖北'],['贵州','贵州'],['四川','四川'],['广州','广东'],['西南大学','重庆'],['西北大学','陕西'],['西北民族','甘肃']
+  ];
+  for(const [k,v] of map){ if(s.includes(k)) return v; }
+  return '其他地区';
+}
+function getEduGroup(edu){
+  const e = edu || '未标注';
+  if(e.includes('硕士')) return '硕士研究生';
+  if(e.includes('本科')) return '大学本科';
+  if(e.includes('大专')) return '大专';
+  if(e.includes('中专')) return '中专';
+  return e;
+}
+people.forEach(p => { p.region = getRegion(p.school); p.eduGroup = getEduGroup(p.edu); });
+stats.region_counts = people.reduce((acc,p)=>{ acc[p.region]=(acc[p.region]||0)+1; return acc; },{});
+stats.edu_group_counts = people.reduce((acc,p)=>{ acc[p.eduGroup]=(acc[p.eduGroup]||0)+1; return acc; },{});
+
+const $ = s => document.querySelector(s);
+const fmt = s => s ? s.replace('-', '年') + '月' : '—';
+
+function countBy(list, getter){
+  return list.reduce((acc, item) => {
+    const key = getter(item) || '未标注';
+    acc[key] = (acc[key] || 0) + 1;
+    return acc;
+  }, {});
+}
+
+function updateMetrics(list){
+  const joins = list.map(p => p.join).filter(Boolean).sort();
+  $('#mTotal').textContent = list.length;
+  $('#mDept').textContent = new Set(list.map(p => p.dept).filter(Boolean)).size;
+  $('#mFirst').textContent = joins.length ? joins[0].slice(0,4) : '—';
+  $('#mLatest').textContent = joins.length ? joins[joins.length - 1].slice(0,4) : '—';
+}
+
+function fillOptions(){
+  Object.keys(stats.dept_counts).sort().forEach(d => $('#dept').insertAdjacentHTML('beforeend', `<option>${d}</option>`));
+  Object.keys(stats.join_counts).sort().forEach(y => $('#year').insertAdjacentHTML('beforeend', `<option>${y}</option>`));
+  Object.keys(stats.region_counts).sort((a,b)=>stats.region_counts[b]-stats.region_counts[a]).forEach(r => $('#region').insertAdjacentHTML('beforeend', `<option>${r}</option>`));
+  Object.keys(stats.edu_group_counts).sort((a,b)=>stats.edu_group_counts[b]-stats.edu_group_counts[a]).forEach(e => $('#edu').insertAdjacentHTML('beforeend', `<option>${e}</option>`));
+}
+
+function renderBars(el, obj, filterId){
+  const entries = Object.entries(obj).sort((a,b)=>b[1]-a[1]);
+  if(!entries.length){
+    $(el).innerHTML = '<div class="empty" style="display:block;padding:24px">暂无数据</div>';
+    return;
+  }
+  const max = Math.max(...entries.map(([,v]) => v));
+  $(el).innerHTML = entries.map(([k,v])=>`
+    <div class="bar" role="button" tabindex="0" data-filter="${filterId}" data-value="${k}" title="点击筛选：${k}">
+      <span>${k}</span><div class="track"><div class="fill" style="width:${v/max*100}%"></div></div><b>${v}</b>
+    </div>
+  `).join('');
+}
+
+function renderOverview(list){
+  updateMetrics(list);
+  renderBars('#deptChart', countBy(list, p => p.dept), 'dept');
+  renderBars('#yearChart', countBy(list, p => p.join ? p.join.slice(0,4) : '未标注'), 'year');
+  renderBars('#regionChart', countBy(list, p => p.region), 'region');
+  renderBars('#eduChart', countBy(list, p => p.eduGroup), 'edu');
+}
+
+function card(p){
+  return `<article class="card">
+    <img class="photo" loading="lazy" src="images/page-${String(p.page).padStart(3,'0')}.jpg" alt="${p.name}">
+    <div class="info">
+      <div class="name">${p.name}</div>
+      <span class="tag">${p.dept || '未标注部门'}</span><span class="tag">${p.eduGroup || '学历未标注'}</span><span class="tag">${p.region || '地域未标注'}</span>
+      <div class="meta">
+        出生年月：${fmt(p.birth)}<br>
+        入职时间：${fmt(p.join)}<br>
+        毕业院校：${p.school || '—'}<br>
+        地域分类：${p.region || '—'}<br>
+        原画册页码：P${p.page}
+      </div>
+    </div>
+  </article>`;
+}
+
+function getFilteredPeople(){
+  const q = $('#q').value.trim().toLowerCase();
+  const dept = $('#dept').value;
+  const year = $('#year').value;
+  const region = $('#region').value;
+  const edu = $('#edu').value;
+  return people.filter(p => 
+    (!dept || p.dept === dept) &&
+    (!year || p.join.startsWith(year)) &&
+    (!region || p.region === region) &&
+    (!edu || p.eduGroup === edu) &&
+    (!q || [p.name,p.dept,p.school,p.edu,p.eduGroup,p.region,p.birth,p.join].join(' ').toLowerCase().includes(q))
+  );
+}
+
+function render(){
+  const list = getFilteredPeople();
+  renderOverview(list);
+  $('#grid').innerHTML = list.map(card).join('');
+  $('#empty').style.display = list.length ? 'none' : 'block';
+}
+
+fillOptions();
+['input','change'].forEach(evt => document.body.addEventListener(evt, e => {
+  if(['q','dept','year','region','edu'].includes(e.target.id)) render();
+}));
+document.body.addEventListener('click', e => {
+  const bar = e.target.closest('.bar[data-filter]');
+  if(!bar) return;
+  const target = $('#' + bar.dataset.filter);
+  if(target){ target.value = bar.dataset.value; render(); }
+});
+document.body.addEventListener('keydown', e => {
+  if(e.key !== 'Enter' && e.key !== ' ') return;
+  const bar = e.target.closest('.bar[data-filter]');
+  if(!bar) return;
+  e.preventDefault();
+  const target = $('#' + bar.dataset.filter);
+  if(target){ target.value = bar.dataset.value; render(); }
+});
+render();
+</script>
+</body>
+</html>
